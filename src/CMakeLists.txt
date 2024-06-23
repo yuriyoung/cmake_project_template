@@ -59,7 +59,7 @@ target_compile_features(${LIBRARY_NAME} PUBLIC cxx_std_11)
 #   FILES ${HEADER_FILES})
 
 
-export(TARGETS ${LIBRARY_NAME} NAMESPACE yuri:: FILE ${LIBRARY_NAME}-targets.cmake)
+export(TARGETS ${LIBRARY_NAME} NAMESPACE libexample:: FILE ${LIBRARY_NAME}-targets.cmake)
 
 install(
 	#NOTE: DO NOT missing the final slash
@@ -79,6 +79,6 @@ install(
 
 install(EXPORT ${LIBRARY_NAME}-targets
     FILE ${LIBRARY_NAME}-targets.cmake
-    NAMESPACE yuri::
+    NAMESPACE libexample::
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${LIBRARY_NAME}
 )
