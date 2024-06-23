@@ -1,0 +1,17 @@
+
+add_executable(example_app app.cpp)
+target_compile_features(example_app PRIVATE cxx_std_11)
+target_link_libraries(example_app PRIVATE libexample::libexample)
+
+# Packaging support
+set(CPACK_PROJECT_NAME ${PROJECT_NAME})
+set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+set(CPACK_PACKAGE_VENDOR "Yuri Young")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "A example project")
+set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
+set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
+set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
+set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_SOURCE_DIR}/LICENSE")
+set(CPACK_RESOURCE_FILE_README "${PROJECT_SOURCE_DIR}/README.md")
+
+include(CPack)
