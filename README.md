@@ -104,3 +104,7 @@ src folder:
     - lib3.cpp
   - ...
 ```
+
+## extern folder
+
+The `extern` folder should contain git submodules almost exclusively. 
