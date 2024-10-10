@@ -1,5 +1,4 @@
-
-set(LIBRARY_NAME "libexample")
+project(libexample)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -17,14 +16,14 @@ file(GLOB_RECURSE SOURCES LIST_DIRECTORIES true *.h *.cpp)
 # Group files
 
 # Make an automatic library - will be static or dynamic based on user setting
-add_library(${LIBRARY_NAME} STATIC ${SOURCES} ${HEADER_FILES})
+add_library(${PROJECT_NAME} STATIC ${SOURCES} ${HEADER_FILES})
 
 # Link the library suing alias: target_link_libraries(${PROJECT_NAME} libexample::libexample)
-add_library(libexample::${LIBRARY_NAME} ALIAS ${LIBRARY_NAME})
+add_library(libexample::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
 # We need this directory, and users of our library will need it too
 # This will cause the include directories for this project to be added to that target
-target_include_directories(${LIBRARY_NAME}
+target_include_directories(${PROJECT_NAME}
 	PUBLIC
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -37,20 +36,20 @@ target_include_directories(${LIBRARY_NAME}
 # the library - this is very helpful when installing as it ensures
 # the debug and release version of library can be installed to the
 # same location and will not conflict (overwrite each other)
-set_target_properties(${LIBRARY_NAME} PROPERTIES DEBUG_POSTFIX "d")
+set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX "d")
 
 # Then copy each of the header files over to that include directory.
 #NOTE: DO NOT missing the final slash
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/
-    DESTINATION ${PROJECT_SOURCE_DIR}/include/libexample/
+    DESTINATION ${CMAKE_SOURCE_DIR}/include/libexample/
     FILES_MATCHING PATTERN "*.h*"
 )
 
 # This depends on (header only) boost
-# target_link_libraries(${LIBRARY_NAME} PRIVATE Boost::boost)
+# target_link_libraries(${PROJECT_NAME} PRIVATE Boost::boost)
 
 # All users of this library will need at least C++11
-target_compile_features(${LIBRARY_NAME} PUBLIC cxx_std_11)
+target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_11)
 
 # IDEs should put the headers in a nice place
 # source_group(
@@ -59,7 +58,7 @@ target_compile_features(${LIBRARY_NAME} PUBLIC cxx_std_11)
 #   FILES ${HEADER_FILES})
 
 
-export(TARGETS ${LIBRARY_NAME} NAMESPACE libexample:: FILE ${LIBRARY_NAME}-targets.cmake)
+export(TARGETS ${PROJECT_NAME} NAMESPACE libexample:: FILE ${PROJECT_NAME}-targets.cmake)
 
 install(
 	#NOTE: DO NOT missing the final slash
@@ -69,16 +68,16 @@ install(
 )
 
 install(
-	TARGETS ${LIBRARY_NAME}
-	EXPORT ${LIBRARY_NAME}-targets
+	TARGETS ${PROJECT_NAME}
+	EXPORT ${PROJECT_NAME}-targets
     RUNTIME DESTINATION bin
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib
 	INCLUDES DESTINATION include/libexample
 )
 
-install(EXPORT ${LIBRARY_NAME}-targets
-    FILE ${LIBRARY_NAME}-targets.cmake
+install(EXPORT ${PROJECT_NAME}-targets
+    FILE ${PROJECT_NAME}-targets.cmake
     NAMESPACE libexample::
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${LIBRARY_NAME}
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
 )
