@@ -25,7 +25,7 @@ add_library(libexample::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 # This will cause the include directories for this project to be added to that target
 target_include_directories(${PROJECT_NAME}
 	PUBLIC
-    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 	PRIVATE
